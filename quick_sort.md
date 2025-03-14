@@ -104,4 +104,83 @@ Final sorted array:
 | **Use Cases** | Databases, ML, Networking, Gaming |
 
 ---
+def quicksort(arr):
+    """
+    Sorts an array using the Quick Sort algorithm.
+
+ Args:
+        arr: The array to be sorted.
+
+ Returns:
+        The sorted array.
+    """
+    if len(arr) <= 1:
+        return arr
+
+ pivot = arr[len(arr) - 1]  # Choose the last element as the pivot
+    left = []
+    right = []
+ for i in range(len(arr) - 1):  # Exclude the pivot
+        if arr[i] < pivot:
+            left.append(arr[i])
+        else:
+            right.append(arr[i])
+ return quicksort(left) + [pivot] + quicksort(right)
+# Example usage:
+my_array = [8, 4, 7, 3, 1, 5, 9, 2]
+sorted_array = quicksort(my_array)
+print("Sorted array:", sorted_array)
+
+#Lomuto partition scheme implementation.
+
+def quicksort_lomuto(arr, low, high):
+    if low < high:
+        pi = partition_lomuto(arr, low, high)
+        quicksort_lomuto(arr, low, pi - 1)
+        quicksort_lomuto(arr, pi + 1, high)
+
+def partition_lomuto(arr, low, high):
+    pivot = arr[high]
+    i = low - 1
+    for j in range(low, high):
+        if arr[j] < pivot:
+            i = i + 1
+            arr[i], arr[j] = arr[j], arr[i]
+    arr[i + 1], arr[high] = arr[high], arr[i + 1]
+    return i + 1
+
+my_array2 = [8, 4, 7, 3, 1, 5, 9, 2]
+quicksort_lomuto(my_array2, 0, len(my_array2) - 1)
+print("Sorted array using Lomuto:", my_array2)
+
+#Hoare partition scheme implementation.
+
+def quicksort_hoare(arr, low, high):
+    if low < high:
+        pi = partition_hoare(arr, low, high)
+        quicksort_hoare(arr, low, pi)  # Note the change: pi instead of pi - 1
+        quicksort_hoare(arr, pi + 1, high)
+
+def partition_hoare(arr, low, high):
+    pivot = arr[low]
+    i = low - 1
+    j = high + 1
+
+ while True:
+        i += 1
+        while arr[i] < pivot:
+            i += 1
+
+ j -= 1
+        while arr[j] > pivot:
+            j -= 1
+
+  if i >= j:
+            return j
+
+  arr[i], arr[j] = arr[j], arr[i]
+
+my_array3 = [8, 4, 7, 3, 1, 5, 9, 2]
+quicksort_hoare(my_array3, 0, len(my_array3) - 1)
+print("Sorted array using Hoare:", my_array3)
 
